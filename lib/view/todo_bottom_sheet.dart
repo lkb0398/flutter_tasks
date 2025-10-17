@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tasks/model/todo_model.dart';
 
 class TodoBottomSheet extends StatefulWidget {
   const TodoBottomSheet({super.key});
@@ -9,7 +10,7 @@ class TodoBottomSheet extends StatefulWidget {
 
 class _TodoBottomSheetState extends State<TodoBottomSheet> {
   bool isDetail = false;
-  bool isStar = false;
+  bool isFavorite = false;
   bool isSaveButtonDisable = true;
 
   final TextEditingController titleController = TextEditingController();
@@ -85,10 +86,10 @@ class _TodoBottomSheetState extends State<TodoBottomSheet> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      isStar = !isStar;
+                      isFavorite = !isFavorite;
                     });
                   },
-                  child: isStar
+                  child: isFavorite
                       ? Icon(Icons.star, size: 24)
                       : Icon(Icons.star_border, size: 24),
                 ),
@@ -96,8 +97,12 @@ class _TodoBottomSheetState extends State<TodoBottomSheet> {
                   onPressed: isSaveButtonDisable
                       ? null
                       : () {
-                          print("Title Controller: ${titleController.text}");
-                          print("Detail Controller: ${detailController.text}");
+                          TodoModel todoModel = TodoModel(
+                            titleController.text,
+                            detailController.text,
+                            isFavorite,
+                            false,
+                          );
                         },
                   child: Text("저장"),
                 ),
