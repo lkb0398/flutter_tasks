@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tasks/view/todo_bottom_sheet.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  bool isStar = false;
-  bool isDetail = true;
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.title,
+          title,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
@@ -42,7 +36,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  """할 일을 추가하고 ${widget.title}에서
+                  """할 일을 추가하고 $title에서
                   할 일을 추척하세요.""",
                   style: TextStyle(
                     fontSize: 14,
@@ -61,69 +55,7 @@ class _HomePageState extends State<HomePage> {
             context: context,
             isScrollControlled: true,
             builder: (context) {
-              return Container(
-                padding: EdgeInsets.only(
-                  left: 20,
-                  right: 20,
-                  top: 12,
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      maxLines: 1,
-                      style: TextStyle(fontSize: 16),
-                      autofocus: true,
-                      decoration: InputDecoration(
-                        hintText: "새 할 일",
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
-                      ),
-                    ),
-                    Visibility(
-                      visible: !isDetail,
-                      child: TextField(
-                        maxLines: 1,
-                        style: TextStyle(fontSize: 16),
-                        autofocus: true,
-                        decoration: InputDecoration(
-                          hintText: "세부정보 추가",
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Visibility(
-                          visible: isDetail,
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isDetail = false;
-                              });
-                            },
-                            child: Icon(Icons.short_text_rounded, size: 24),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isStar = !isStar;
-                            });
-                          },
-                          child: Icon(
-                            Icons.star_border,
-                            size: 24,
-                            color: isStar ? Colors.blue : Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
+              return TodoBottomSheet();
             },
           );
         },
