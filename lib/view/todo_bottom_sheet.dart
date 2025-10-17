@@ -59,9 +59,10 @@ class _TodoBottomSheetState extends State<TodoBottomSheet> {
               visible: isDetail,
               child: TextField(
                 controller: detailController,
-                maxLines: 1,
+                maxLines: 3,
                 style: TextStyle(fontSize: 16),
                 autofocus: true,
+                autocorrect: true,
                 decoration: InputDecoration(
                   hintText: "세부정보 추가",
                   border: OutlineInputBorder(borderSide: BorderSide.none),
