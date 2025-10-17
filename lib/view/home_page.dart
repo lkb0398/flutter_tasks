@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tasks/model/todo_model.dart';
 import 'package:flutter_tasks/view/todo_bottom_sheet.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key, required this.title});
+  HomePage({super.key, required this.title});
 
   final String title;
+  final List<TodoModel> list = [];
 
   @override
   Widget build(BuildContext context) {
