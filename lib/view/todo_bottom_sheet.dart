@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tasks/model/todo_model.dart';
+import 'package:flutter_tasks/viewmodel/save_todo.dart';
 
 class TodoBottomSheet extends StatefulWidget {
   const TodoBottomSheet({super.key});
@@ -12,6 +13,7 @@ class _TodoBottomSheetState extends State<TodoBottomSheet> {
   bool isDetail = false;
   bool isFavorite = false;
   bool isSaveButtonDisable = true;
+  TodoModel todoModel = TodoModel("", "", false, false);
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController detailController = TextEditingController();
@@ -48,9 +50,20 @@ class _TodoBottomSheetState extends State<TodoBottomSheet> {
                 });
               },
               controller: titleController,
+              textInputAction: TextInputAction.done,
               maxLines: 1,
               style: TextStyle(fontSize: 16),
               autofocus: true,
+              onSubmitted: (value) {
+                todoModel = TodoModel(
+                  titleController.text,
+                  detailController.text,
+                  isFavorite,
+                  false,
+                );
+                SaveTodo().addTodo(todoModel);
+                Navigator.of(context).pop();
+              },
               decoration: InputDecoration(
                 hintText: "새 할 일",
                 border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -60,10 +73,21 @@ class _TodoBottomSheetState extends State<TodoBottomSheet> {
               visible: isDetail,
               child: TextField(
                 controller: detailController,
+                textInputAction: TextInputAction.done,
                 maxLines: 3,
                 style: TextStyle(fontSize: 16),
                 autofocus: true,
                 autocorrect: true,
+                onSubmitted: (value) {
+                  TodoModel todoModel = TodoModel(
+                    titleController.text,
+                    detailController.text,
+                    isFavorite,
+                    false,
+                  );
+                  SaveTodo().addTodo(todoModel);
+                  Navigator.of(context).pop();
+                },
                 decoration: InputDecoration(
                   hintText: "세부정보 추가",
                   border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -93,6 +117,7 @@ class _TodoBottomSheetState extends State<TodoBottomSheet> {
                       ? Icon(Icons.star, size: 24)
                       : Icon(Icons.star_border, size: 24),
                 ),
+                SizedBox(width: 200),
                 ElevatedButton(
                   onPressed: isSaveButtonDisable
                       ? null
@@ -103,6 +128,8 @@ class _TodoBottomSheetState extends State<TodoBottomSheet> {
                             isFavorite,
                             false,
                           );
+                          SaveTodo().addTodo(todoModel);
+                          Navigator.of(context).pop();
                         },
                   child: Text("저장"),
                 ),
