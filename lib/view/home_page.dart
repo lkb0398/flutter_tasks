@@ -12,6 +12,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final bool isFavorite = false;
+  final bool isDescription = false;
 
   void addTodo() {}
 
@@ -76,6 +77,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(fontSize: 16),
                       maxLines: 1,
                       onSubmitted: (value) {
+                        titleController.clear();
                         Navigator.of(context).pop();
                       },
                       decoration: InputDecoration(
@@ -83,26 +85,26 @@ class _HomePageState extends State<HomePage> {
                         border: InputBorder.none,
                       ),
                     ),
-                    Expanded(
-                      child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        controller: descriptionController,
-                        style: TextStyle(fontSize: 14),
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          hintText: "세부사항",
-                          border: InputBorder.none,
-                        ),
-                        onSubmitted: (value) {
-                          Navigator.of(context).pop();
-                        },
+                    TextField(
+                      controller: descriptionController,
+                      style: TextStyle(fontSize: 14),
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        hintText: "세부사항",
+                        border: InputBorder.none,
                       ),
                     ),
                     Row(
                       children: [
                         Icon(Icons.short_text_rounded, size: 24),
                         Icon(Icons.star, size: 24),
-                        ElevatedButton(onPressed: () {}, child: Text("저장")),
+                        ElevatedButton(
+                          onPressed: titleController.text.isNotEmpty
+                              ? () {}
+                              : null,
+
+                          child: Text("저장"),
+                        ),
                       ],
                     ),
                   ],
