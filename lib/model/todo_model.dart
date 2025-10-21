@@ -1,8 +1,8 @@
 class TodoModel {
   final String title;
   final String? description;
-  final bool isFavorite;
-  final bool isDone = false;
+  bool isFavorite;
+  bool isDone;
 
-  TodoModel(this.title, this.description, this.isFavorite);
+  TodoModel(this.title, this.description, this.isFavorite, this.isDone);
 }
