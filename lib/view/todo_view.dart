@@ -15,13 +15,12 @@ class TodoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          Icon(Icons.circle),
-          
-        ],
-      ),
+    return Row(
+      children: [
+        Icon(Icons.circle, size: 10),
+        Text("title", style: TextStyle(fontSize: 30)),
+        Icon(Icons.star, size: 10),
+      ],
     );
   }
 }
