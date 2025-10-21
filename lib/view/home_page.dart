@@ -14,9 +14,11 @@ class _HomePageState extends State<HomePage> {
   final TodoViewModel todoViewModel = TodoViewModel();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+
   List<TodoModel> list = [];
   bool isFavorite = false;
   bool isDescription = false;
+  bool isDone = false;
 
   @override
   void dispose() {
@@ -38,7 +40,53 @@ class _HomePageState extends State<HomePage> {
           ? ListView.builder(
               itemCount: list.length,
               itemBuilder: (context, index) {
-                return ;
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  margin: EdgeInsets.only(top: 8, bottom: 8),
+                  padding: EdgeInsets.only(left: 16, right: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        spacing: 12,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                list[index].isDone = !list[index].isDone;
+                              });
+                            },
+                            child: list[index].isDone
+                                ? Icon(Icons.check_circle_outlined, size: 20)
+                                : Icon(Icons.circle_outlined, size: 20),
+                          ),
+                          Text(
+                            list[index].title,
+                            style: TextStyle(
+                              fontSize: 20,
+                              decoration: list[index].isDone
+                                  ? TextDecoration.lineThrough
+                                  : null,
+                            ),
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            list[index].isFavorite = !list[index].isFavorite;
+                          });
+                        },
+                        child: list[index].isFavorite
+                            ? Icon(Icons.star, size: 24)
+                            : Icon(Icons.star_border, size: 24),
+                      ),
+                    ],
+                  ),
+                );
               },
             )
           : Container(
@@ -98,20 +146,17 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(fontSize: 16),
                           maxLines: 1,
                           onSubmitted: (value) {
-                            setModalState(() {
-                              list.add(
-                                todoViewModel.saveTodo(
-                                  title: titleController.text,
-                                  description: descriptionController.text,
-                                  isFavorite: isFavorite,
-                                ),
-                              );
-                              titleController.clear();
-                              Navigator.of(context).pop();
-                              print(
-                                "${list.first.title}, ${list.first.description}",
-                              );
-                            });
+                            list.add(
+                              todoViewModel.saveTodo(
+                                title: titleController.text,
+                                description: descriptionController.text,
+                                isFavorite: isFavorite,
+                              ),
+                            );
+                            titleController.clear();
+                            descriptionController.clear();
+                            Navigator.of(context).pop();
+                            setState(() {});
                           },
                           decoration: InputDecoration(
                             hintText: "새 할 일",
@@ -131,22 +176,53 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                setModalState(() {
-                                  isDescription = !isDescription;
-                                });
-                              },
-                              child: Visibility(
-                                visible: !isDescription,
-                                child: Icon(Icons.short_text_rounded, size: 24),
-                              ),
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setModalState(() {
+                                      isDescription = !isDescription;
+                                    });
+                                  },
+                                  child: Visibility(
+                                    visible: !isDescription,
+                                    child: Icon(
+                                      Icons.short_text_rounded,
+                                      size: 24,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                GestureDetector(
+                                  onTap: () {
+                                    setModalState(() {
+                                      isFavorite = !isFavorite;
+                                    });
+                                  },
+                                  child: isFavorite
+                                      ? Icon(Icons.star, size: 24)
+                                      : Icon(Icons.star_border, size: 24),
+                                ),
+                              ],
                             ),
-                            Icon(Icons.star, size: 24),
                             ElevatedButton(
                               onPressed: titleController.text.isNotEmpty
-                                  ? () {}
+                                  ? () {
+                                      list.add(
+                                        todoViewModel.saveTodo(
+                                          title: titleController.text,
+                                          isFavorite: isFavorite,
+                                          description:
+                                              descriptionController.text,
+                                        ),
+                                      );
+                                      titleController.clear();
+                                      descriptionController.clear();
+                                      Navigator.of(context).pop();
+                                      setState(() {});
+                                    }
                                   : null,
                               child: Text("저장"),
                             ),
