@@ -6,7 +6,7 @@ class TodoViewModel {
     required bool isFavorite,
     required String? description,
   }) {
-    TodoModel todoModel = TodoModel(title, description, isFavorite);
+    TodoModel todoModel = TodoModel(title, description, isFavorite, false);
 
     return todoModel;
   }
