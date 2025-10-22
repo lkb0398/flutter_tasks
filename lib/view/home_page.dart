@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tasks/model/todo_model.dart';
+import 'package:flutter_tasks/view/todo_view.dart';
 import 'package:flutter_tasks/viewmodel/todo_view_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   List<TodoModel> list = [];
   bool isFavorite = false;
   bool isDescription = false;
-  bool isDone = false;
+  // bool isDone = false;
 
   @override
   void dispose() {
@@ -63,13 +64,24 @@ class _HomePageState extends State<HomePage> {
                                 ? Icon(Icons.check_circle_outlined, size: 20)
                                 : Icon(Icons.circle_outlined, size: 20),
                           ),
-                          Text(
-                            list[index].title,
-                            style: TextStyle(
-                              fontSize: 20,
-                              decoration: list[index].isDone
-                                  ? TextDecoration.lineThrough
-                                  : null,
+                          GestureDetector(
+                            onTap: () async {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      TodoView(todoModel: list[index]),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              list[index].title,
+                              style: TextStyle(
+                                fontSize: 20,
+                                decoration: list[index].isDone
+                                    ? TextDecoration.lineThrough
+                                    : null,
+                              ),
                             ),
                           ),
                         ],
