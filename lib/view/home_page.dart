@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
   List<TodoModel> list = [];
   bool isFavorite = false;
   bool isDescription = false;
-  // bool isDone = false;
 
   @override
   void dispose() {
@@ -73,6 +72,7 @@ class _HomePageState extends State<HomePage> {
                                       TodoView(todoModel: list[index]),
                                 ),
                               );
+                              setState(() {});
                             },
                             child: Text(
                               list[index].title,
