@@ -16,7 +16,7 @@ class _TodoViewState extends State<TodoView> {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(widget.todoModel);
           },
           child: Icon(Icons.arrow_back),
         ),
